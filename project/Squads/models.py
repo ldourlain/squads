@@ -3,10 +3,10 @@ from django.db import models
 # Create your models here.
 
 class Student(models.Model):
-    full_name = models.CharField(80)
+    full_name = models.CharField(max_length=80)
 
 class Classroom(models.Model):
-    teacher_name = models.CharField(80)
+    teacher_name = models.CharField(max_length=80)
     student_ids = models.ManyToManyField(Student)
     
 class Group(models.Model):
