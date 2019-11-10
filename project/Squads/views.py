@@ -7,7 +7,7 @@ from .models import Classroom
 
 def classroom(request, classroom_id):
     current_classroom = get_object_or_404(Classroom, id=classroom_id)
-    context = {"students": current_classroom.student_ids}
+    context = {"students": current_classroom.student_ids.all()}
     return render(request, 'classroom.html', context)
 
 
