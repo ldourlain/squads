@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import Classroom
+from .forms import AddClassForm
 
 
 def classroom(request, classroom_id):
@@ -26,14 +27,24 @@ def edit_groups(request, classroom_id, group_set):
     }
     return render(request, 'edit_classes.html', {"json": json})
 
+@csrf_exempt
+@require_http_methods(["POST", "GET"])
+def add_class(request):
+    if request.method == "POST":
+        form = AddClassForm(request.POST)
+        if form.is_valid():
+            classroom = form.save(commit=False)
+            classroom.owner = request.user
+            classroom.save()
+        return redirect('classes')
+    else:
+        form = AddClassForm()
+    return render(request, 'new-class.html', {'form': form})
 
+#def add_class_student(request):
+    #render to
 # def generate_group(request, classroom_id, min_partners, pref_partners):
 #     current_classroom = get_object_or_404(Classroom, id=classroom_id)
 #     num = current_classroom.num_of_groups + 1
 #     for i in range()
 #
-
-
-
-
-

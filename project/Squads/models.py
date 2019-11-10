@@ -16,6 +16,8 @@ class Classroom(models.Model):
     num_of_groups = models.IntegerField(default=0)
 
 
+# hidden_table = somewhere
+
 class Group(models.Model):
     student_ids = models.ManyToManyField(Student)
     classroom_id = models.ForeignKey(Classroom, on_delete=models.CASCADE)
