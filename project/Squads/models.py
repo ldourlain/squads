@@ -9,6 +9,7 @@ class Student(models.Model):
 class Classroom(models.Model):
     teacher_name = models.CharField(max_length=80)
     student_ids = models.ManyToManyField(Student)
+    name = models.CharField(max_length=80)
 
 
 class Group(models.Model):
