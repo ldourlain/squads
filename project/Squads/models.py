@@ -1,4 +1,5 @@
 from django.db import models
+from Users.models import Administrator
 
 
 # Create your models here.
@@ -8,7 +9,7 @@ class Student(models.Model):
 
 
 class Classroom(models.Model):
-    teacher_name = models.CharField(max_length=80)
+    owner = models.ForeignKey(Administrator, on_delete=models.CASCADE)
     student_ids = models.ManyToManyField(Student)
     num_of_groups = models.IntegerField()
 
