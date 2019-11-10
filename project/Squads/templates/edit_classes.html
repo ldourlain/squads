@@ -91,8 +91,8 @@
               },
                 error: function(xhr, ajaxOptions, thrownError){
                   if( xhr.status !== 200 ) {
-                      alert("There was an error.");
                       console.log(xhr.responseText)
+                      alert("There was an error.");
                   } else {
                       window.location = xhr.responseText;
                   }
