@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% load staticfiles %}
+{% block header %}
+<style>
+
+    body{
+	background: #eaeaea repeat-x 0 -30px;
+	font-family: "Trebuchet MS",Arial,Verdana,sans-serif;
+	font-size:14px;
+	//background-attachment: fixed;
+}
+    .title {
+        overflow: hidden;
+        background-color: #add8e6;
+        border-radius: 25px;
+        padding: 30px 10px;
+    }
+    button a{
+        color:white;
+    }
+</style>
+
+{% endblock %}
+{% block main %}
+<div class="container">
+    <div>
+        <h2 class = title>Add New Class</h2>
+        <form method="POST">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class ="btn btn-secondary">Save</button>
+            <button id = back class ="btn btn-secondary"> <a href="{% url 'classes' %}">Back</a></button>
+        </form>
+
+        </div>
+    </div>
+{% endblock %}

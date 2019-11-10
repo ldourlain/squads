@@ -5,10 +5,12 @@ from django.views.decorators.http import require_http_methods
 from .models import Classroom, Group, Student, Absence
 import random
 import json
+from .forms import AddClassForm, AddClassStudent
+
 
 def classroom(request, classroom_id):
     current_classroom = get_object_or_404(Classroom, id=classroom_id)
-    context = {"students": current_classroom.student_ids.all()}
+    context = {"students": current_classroom.student_ids.all(), "classroom_id": classroom_id}
     return render(request, 'classroom.html', context)
 
 
@@ -105,8 +107,29 @@ def save_group(request, classroom_id, group_set=None):
     return HttpResponse("/edit-groups/" + str(classroom_id) + "/" + str(group_set))
 
 
+@require_http_methods(["POST", "GET"])
+def add_class(request):
+    if request.method == "POST":
+        form = AddClassForm(request.POST)
+        if form.is_valid():
+            classroom = form.save(commit=False)
+            classroom.owner = request.user
+            classroom.save()
+        return redirect('classes')
+    else:
+        form = AddClassForm()
+    return render(request, 'new-class.html', {'form': form})
 
 
-
-
+@require_http_methods(["POST", "GET"])
+def add_class_student(request, classroom_id):
+    current_classroom = get_object_or_404(Classroom, id=classroom_id)
+    if request.method == "POST":
+        form = AddClassStudent(request.POST, instance=current_classroom)
+        if form.is_valid():
+            current_classroom = form.save()
+        return redirect('classroom', classroom_id=classroom_id)
+    else:
+        form = AddClassStudent(instance=current_classroom)
+    return render(request, 'add_class_students.html', {'form': form})
 
