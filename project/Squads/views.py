@@ -14,4 +14,15 @@ def classroom(request, classroom_id):
 def classes(request):
     context = {"classes": Classroom.objects.all()}
     return render(request, 'classes.html', context)
-# Create your views here.
+
+
+def edit_groups(request, classroom_id, group_set):
+    json = {"teams": [
+        ["abc123", "lol34", "hah456", "ok99"],
+        ["lcd64", "emf86", "tmh327", "sd3424"],
+        ["sad32", "xd69", "pls420"]
+    ],
+        "absences": []
+    }
+    return render(request, 'edit_classes.html', {"json": json})
+
