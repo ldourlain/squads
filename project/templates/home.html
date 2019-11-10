@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Hello</title>
-</head>
-<body>
-<a href="{% url "login" %}">Login</a><br>
-<a href="{% url "signup" %}">Sign up</a><br>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% load staticfiles %}
+{% block header %}
+
+{% endblock %}
+
+{% block main %}
+
+<a href="{% url "login" %}" class = "btn btn-primary" style ="margin:5px;">Login</a><br>
+<a href="{% url "signup" %}" class = "btn btn-primary" style ="margin:5px;">Sign up</a><br>
+
+{% endblock %}
