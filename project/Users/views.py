@@ -7,7 +7,8 @@ from django.http import HttpResponse
 
 def home(request):
     if request.user.is_authenticated:
-        return HttpResponse("Hello")
+        return redirect("classes")
+
 
     return redirect("login")
 
