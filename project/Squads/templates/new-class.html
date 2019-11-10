@@ -18,8 +18,8 @@
         border-radius: 25px;
         padding: 30px 10px;
     }
-    .back {
-        color:black;
+    button a{
+        color:white;
     }
 </style>
 
@@ -30,8 +30,8 @@
         <h2 class = title>Add New Class</h2>
         <form method="POST">{% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Save</button>
-            <button class = back> <a href="{% url 'classes' %}">Back</a></button>
+            <button type="submit" class ="btn btn-secondary">Save</button>
+            <button id = back class ="btn btn-secondary"> <a href="{% url 'classes' %}">Back</a></button>
         </form>
 
         </div>
