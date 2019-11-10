@@ -7,7 +7,8 @@ class AddClassForm(forms.ModelForm):
         model = Classroom
         fields = ('name',)
 
-#class AddClassStudent(forms.ModelForm):
- #   class Meta:
-  #      model = Classroom
-   #     fields =
+
+class AddClassStudent(forms.ModelForm):
+    class Meta:
+        model = Classroom
+        fields = ('student_ids',)

@@ -3,12 +3,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import Classroom
-from .forms import AddClassForm
+from .forms import AddClassForm, AddClassStudent
 
 
 def classroom(request, classroom_id):
     current_classroom = get_object_or_404(Classroom, id=classroom_id)
-    context = {"students": current_classroom.student_ids.all()}
+    context = {"students": current_classroom.student_ids.all(), "classroom_id": classroom_id}
     return render(request, 'classroom.html', context)
 
 
@@ -27,7 +27,7 @@ def edit_groups(request, classroom_id, group_set):
     }
     return render(request, 'edit_classes.html', {"json": json})
 
-@csrf_exempt
+
 @require_http_methods(["POST", "GET"])
 def add_class(request):
     if request.method == "POST":
@@ -41,8 +41,19 @@ def add_class(request):
         form = AddClassForm()
     return render(request, 'new-class.html', {'form': form})
 
-#def add_class_student(request):
-    #render to
+
+@require_http_methods(["POST", "GET"])
+def add_class_student(request, classroom_id):
+    current_classroom = get_object_or_404(Classroom, id=classroom_id)
+    if request.method == "POST":
+        form = AddClassStudent(request.POST, instance=current_classroom)
+        if form.is_valid():
+            current_classroom = form.save()
+        return redirect('classroom', classroom_id=classroom_id)
+    else:
+        form = AddClassStudent(instance=current_classroom)
+    return render(request, 'add_class_students.html', {'form': form})
+
 # def generate_group(request, classroom_id, min_partners, pref_partners):
 #     current_classroom = get_object_or_404(Classroom, id=classroom_id)
 #     num = current_classroom.num_of_groups + 1
