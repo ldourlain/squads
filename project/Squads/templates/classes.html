@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!-- list of classes-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classes</title>
+</head>
+<body>
+    <div align="center" id = "class">
+        <ul>
+            {% for class in classes %}
+                <li><a href="{% url 'classes' class.id %}">{{ class.id }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

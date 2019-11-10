@@ -1,6 +1,7 @@
 from django.db import models
 from Users.models import Administrator
 
+
 # Create your models here.
 
 class Student(models.Model):
@@ -15,6 +16,7 @@ class Group(models.Model):
     student_ids = models.ManyToManyField(Student)
     classroom_id = models.ForeignKey(Classroom, on_delete=models.CASCADE)
     date = models.DateField(auto_now=True)
+
 
 class Absence(models.Model):
     student_ids = models.ManyToManyField(Student)
