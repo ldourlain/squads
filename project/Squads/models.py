@@ -6,6 +6,7 @@ from Users.models import Administrator
 
 class Student(models.Model):
     full_name = models.CharField(max_length=80)
+    email = models.CharField(max_length=80)
 
 
 class Classroom(models.Model):
