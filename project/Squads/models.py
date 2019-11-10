@@ -8,12 +8,18 @@ class Student(models.Model):
     full_name = models.CharField(max_length=80)
     email = models.CharField(max_length=80)
 
+    def __str__(self):
+        return str(self.full_name)
+
 
 class Classroom(models.Model):
     owner = models.ForeignKey(Administrator, on_delete=models.CASCADE)
     student_ids = models.ManyToManyField(Student)
     name = models.CharField(max_length=80)
     num_of_groups = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.name)
 
 
 # hidden_table = somewhere

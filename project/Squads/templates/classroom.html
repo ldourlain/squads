@@ -10,6 +10,9 @@
             {% for student in students %}
                 <li>{{ student.full_name }}</a></li>
             {% endfor %}
+        <form action="{% url 'add_class_student' classroom_id %}">
+             <button type="submit">Add Students</button>
+        </form>
         </ul>
     </div>
 </body>

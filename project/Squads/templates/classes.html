@@ -12,9 +12,15 @@
                 <li><a href="{% url 'classroom' class.id %}">{{ class.name }}</a></li>
             {% endfor %}
         </ul>
+
+
         <form action={% url 'add_class' %}>
             <button type="submit">Create new class</button>
         </form>
+
     </div>
+
+
+
 </body>
 </html>
