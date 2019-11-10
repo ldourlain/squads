@@ -17,4 +17,4 @@ class AddClassStudent(forms.ModelForm):
 class AddStudent(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ('full_name',)
+        fields = ('full_name', 'email')

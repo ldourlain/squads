@@ -2,7 +2,7 @@
 
 
 {% load staticfiles %}
-{% block header %}
+{% block main %}
     <style type="text/css">
         body {
             font-family: Arial, sans-serif;
@@ -32,15 +32,13 @@
             padding: 20px;
         }
     </style>
-{% endblock %}
-{% block main %}
     <div class="container">
     <h1>Edit this team:</h1>
     <div id="teams"></div>
     <div id="absences" class="connect">Absent</div>
     <div id="controls">
-        <input type="button" value="add team" onclick="addTeam()">
-        <input type="button" value="save" onclick="saveTeams()">
+        <input type="button" class="btn btn-secondary" value="add team" onclick="addTeam()">
+        <input type="button" class="btn btn-secondary" value="save" onclick="saveTeams()">
     </div>
     </div>
 
