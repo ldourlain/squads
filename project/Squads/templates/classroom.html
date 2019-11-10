@@ -6,7 +6,12 @@
 {% block main %}
 <div class = container>
     <h1 class = header class = className>Class: {{ name }}</h1>
-    <div id = "student">
+    <div id="student">
+        <div style="margin-bottom: 20px;">
+            {% for i in group_count %}
+                <a href="{% url 'edit_groups' classroom_id i %}" class="btn btn-secondary">Group List {{ i }}</a>
+            {% endfor %}
+        </div>
         <ul class = studentList>
             {% for student in students %}
                 <li class = students>{{ student.full_name }}</li>
