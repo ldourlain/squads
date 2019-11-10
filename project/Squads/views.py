@@ -106,13 +106,19 @@ def save_group(request, classroom_id, group_set=None):
         group = Group(group_set=group_set, classroom_id=current_classroom)
         group.save()
         for j in i:
-            group.student_ids.add(get_object_or_404(Student, email=j))
+            try:
+                group.student_ids.add(Student.objects.get(email=j))
+            except:
+                pass
         group.save()
 
     absence = Absence(group_set=group_set, classroom_id=current_classroom)
     absence.save()
     for i in received_json_data['absences']:
-        absence.student_ids.add(get_object_or_404(Student, email=i))
+        try:
+            absence.student_ids.add(Student.objects.get(email=i))
+        except:
+            pass
     absence.save()
 
     return HttpResponse("/edit-groups/" + str(classroom_id) + "/" + str(group_set))
