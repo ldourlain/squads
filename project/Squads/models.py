@@ -12,6 +12,7 @@ class Student(models.Model):
 class Classroom(models.Model):
     owner = models.ForeignKey(Administrator, on_delete=models.CASCADE)
     student_ids = models.ManyToManyField(Student)
+    name = models.CharField(max_length=80)
     num_of_groups = models.IntegerField(default=0)
 
 
