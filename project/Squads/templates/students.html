@@ -2,18 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Classroom</title>
+    <title>All Students</title>
 </head>
 <body>
-    <div align="center" id = "student">
+    <div align="center">
         <ul>
             {% for student in students %}
                 <li>{{ student.full_name }}</li>
             {% endfor %}
-        <form action="{% url 'add_class_student' classroom_id %}">
-             <button type="submit">Add Students</button>
-        </form>
         </ul>
+
+        <form action={% url 'add_students' %}>
+            <button type="submit">Add new student</button>
+        </form>
+
     </div>
 </body>
 </html>

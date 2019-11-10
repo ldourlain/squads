@@ -5,7 +5,7 @@ from django.views.decorators.http import require_http_methods
 from .models import Classroom, Group, Student, Absence
 import random
 import json
-from .forms import AddClassForm, AddClassStudent
+from .forms import AddClassForm, AddClassStudent, AddStudent
 
 
 def classroom(request, classroom_id):
@@ -17,6 +17,11 @@ def classroom(request, classroom_id):
 def classes(request):
     context = {"classes": Classroom.objects.all()}
     return render(request, 'classes.html', context)
+
+
+def students(request):
+    context = {"students": Student.objects.all()}
+    return render(request, 'students.html', context)
 
 
 def edit_groups(request, classroom_id, group_set):
@@ -40,10 +45,10 @@ def edit_groups(request, classroom_id, group_set):
         final_absences.append(people)
 
     json = {"teams": final_groups,
-        "absences": final_absences
-    }
+            "absences": final_absences
+            }
     current_classroom = get_object_or_404(Classroom, id=classroom_id)
-    return render(request, 'edit_classes.html', {"json": json, "group_set":group_set, "classroom_id": classroom_id})
+    return render(request, 'edit_classes.html', {"json": json, "group_set": group_set, "classroom_id": classroom_id})
 
 
 def generate_groups(request, classroom_id, num_partners):
@@ -58,15 +63,17 @@ def generate_groups(request, classroom_id, num_partners):
 
     students = current_classroom.student_ids.all()
     master_list = []
-    teams= "{"
+    teams = "{"
     partners_arr = str([""] * len(students))
     for i, student in enumerate(students):
         master_list.append(student.email)
         teams += "'" + student.email + "' : {" \
-        "'name':'" + student.full_name + "','index':" + str(i) +",'partners':"+ partners_arr + "},"
+                                       "'name':'" + student.full_name + "','index':" + str(
+            i) + ",'partners':" + partners_arr + "},"
     teams += "}"
     return render(request, 'generate_classes.html', {"num_partners": num_partners, "past_groups": str(past_groups),
-                            "classroom_id": classroom_id, "teams": teams, "master_list": str(master_list)})
+                                                     "classroom_id": classroom_id, "teams": teams,
+                                                     "master_list": str(master_list)})
 
 
 def save_group(request, classroom_id, group_set=None):
@@ -108,6 +115,18 @@ def save_group(request, classroom_id, group_set=None):
 
 
 @require_http_methods(["POST", "GET"])
+def add_students(request):
+    if request.method == "POST":
+        form = AddStudent(request.POST)
+        if form.is_valid():
+            student = form.save()
+        return redirect('students')
+    else:
+        form = AddStudent()
+    return render(request, 'new_students.html', {'form': form})
+
+
+@require_http_methods(["POST", "GET"])
 def add_class(request):
     if request.method == "POST":
         form = AddClassForm(request.POST)
@@ -132,4 +151,3 @@ def add_class_student(request, classroom_id):
     else:
         form = AddClassStudent(instance=current_classroom)
     return render(request, 'add_class_students.html', {'form': form})
-
