@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>All Students</title>
-</head>
-<body>
-    <div align="center">
+{% extends 'main_base.html' %}
+
+
+{% load staticfiles %}
+{% block main %}
+    <div class="container">
         <ul>
             {% for student in students %}
                 <li>{{ student.full_name }}</li>
@@ -17,5 +15,4 @@
         </form>
 
     </div>
-</body>
-</html>
+{% endblock %}

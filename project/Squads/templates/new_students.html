@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create New Student</title>
-</head>
-<body>
+{% extends 'main_base.html' %}
 
-    <div>
+
+{% load staticfiles %}
+{% block main %}
+    <div class="container">
         <h2>Add New Student</h2>
 
         <form method="POST">{% csrf_token %}
@@ -17,5 +14,4 @@
 
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
