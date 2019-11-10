@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .connect {
+            border: 1px solid #eee;
+            width: 142px;
+            min-height: 20px;
+            list-style-type: none;
+            margin: 0;
+            padding: 5px 0 0 0;
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        .connect .members {
+            padding: 5px;
+            margin: 10px 0 0;
+            border: 1px solid #eee;
+        }
+
+        #controls {
+            clear: both;
+            padding: 20px;
+        }
+    </style>
+{% endblock %}
+{% block main %}
+    <div id="teams"></div>
+    <div id="absences" class="connect">Absent</div>
+    <div id="controls">
+        <input type="button" value="add team" onclick="addTeam()">
+        <input type="button" value="save" onclick="saveTeams()">
+    </div>
+
+    <script type="text/javascript">
+        function addTeam() {
+            var teamnum = $(".team").length + 1;
+            $("#teams").append(`<div id="team${teamnum}" class="connect team">Team ${teamnum}</div>`);
+
+
+            $(`#team${teamnum}`).sortable({
+                connectWith: ".connect"
+            });
+        }
+
+        function saveTeams() {
+            let json = {"teams": [], "absences": []};
+            $(".team").each(function () {
+                let children = $(this).children();
+                let team = [];
+                for (var i = 0; i < children.length; i++) {
+                    team.push(children[i].id)
+                }
+                json.teams.push(team)
+            });
+
+            $("#absences .members").each(function () {
+                json.absences.push(this.id)
+            });
+
+            console.log(json)
+        }
+
+        var obj = {{ json |safe }};
+        var connect = "class='connect team'";
+        for (var i = 0; i < obj.teams.length; i++) {
+            document.getElementById("teams").innerHTML += "<div id= team" + (i + 1) + ' ' + connect + ">" + "Team" + ' ' + (i + 1) + "</div>";
+            let currID = "team" + (i + 1);
+            for (var j = 0; j < obj.teams[i].length; j++) {
+                document.getElementById(currID).innerHTML += "<div id = " + obj.teams[i][j] + " class = members>" + obj.teams[i][j] + "</div>";
+            }
+        }
+
+
+        for (var i = 0; i < obj.absences.length; i++) {
+            document.getElementById("absences").innerHTML += "<div class='members'>" + obj.absences[i] + "</div>"
+        }
+
+        $(function () {
+            $(".connect").sortable({
+                connectWith: ".connect"
+            });
+        });
+    </script>
+{% endblock %}
