@@ -9,7 +9,7 @@
     <div align="center" id = "class">
         <ul>
             {% for class in classes %}
-                <li><a href="">{{ class.id }}</a></li>
+                <li><a href="{% url 'classroom' class.id %}">{{ class.name }}</a></li>
             {% endfor %}
         </ul>
     </div>
