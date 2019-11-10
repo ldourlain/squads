@@ -25,6 +25,25 @@
   border-radius: 25px;
   padding: 30px 10px;
 }
+        #class{
+            padding-top: 20px;
+        }
+        .classList{
+            font-size: 16px;
+            list-style: none;
+  padding: 0;
+
+        }
+        .classes{
+            padding: 5px 10px;
+  background-color: #EEEEEE;
+  border: 1px solid #DDDDDD;
+        }
+        .classes:hover{
+            background-color: #ddd;
+  color: black;
+
+        }
 
 .header a {
   float: left;
@@ -68,9 +87,9 @@
   </div>
 </div>
     <div id = "class">
-        <ul>
+        <ul class = "classList">
             {% for class in classes %}
-                <li><a href="{% url 'classroom' class.id %}">{{ class.name }}</a></li>
+                <li class ="classes"><a href="{% url 'classroom' class.id %}">{{ class.name }}</a></li>
             {% endfor %}
         </ul>
         <form action={% url 'add_class' %}>
