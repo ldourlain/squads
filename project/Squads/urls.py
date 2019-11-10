@@ -6,6 +6,7 @@ urlpatterns = [
     path('new-class/', views.add_class, name='add_class'),
     path('add_class_students/<int:classroom_id>/', views.add_class_student, name='add_class_student'),
     path('classes/', views.classes, name='classes'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('students/', views.students, name='students'),
     path('new_students/', views.add_students, name='add_students'),
     path('generate/<int:classroom_id>/<int:num_partners>', views.generate_groups, name='generate_groups'),
