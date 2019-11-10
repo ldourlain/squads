@@ -34,8 +34,9 @@
     </style>
 {% endblock %}
 {% block main %}
+
     <div class="container">
-    <h1>Edit this team:</h1>
+    <h1>Create this team:</h1>
     <div id="teams"></div>
     <div id="absences" class="connect">Absent</div>
     <div id="controls">
@@ -46,6 +47,107 @@
 
     {% csrf_token %}
     <script type="text/javascript">
+    var master_list = {{ master_list|safe }};
+    // json object of each student and their previous partners
+    var past_groups = {{ past_groups |safe }};
+    var teams = {{ teams |safe }};
+
+
+    Object.keys(teams).forEach(function(name) {
+        teams[name].partners[teams[name].index] = "x";
+    });
+
+    for(let i = 0; i < past_groups.length; i++) {
+        for(let j = 0; j < past_groups[i].length; j++) {
+            let p = past_groups[i][0]
+            let k = past_groups[i][j]
+            if (p !== k) {
+                teams[p].partners[teams[k].index] = "1";
+            }
+        }
+    }
+
+    function getAllIndexes(arr, val) {
+        var indexes = [], i;
+        for(i = 0; i < arr.length; i++)
+            if (arr[i] === val) {
+                indexes.push(i);
+            }
+            return indexes;
+	}
+
+    function generateNext(num,num_partners) {
+		Object.keys(teams).forEach(function(name) {
+			if(!teams[name]["week"+num]) {
+				var indexes = [];
+				Object.keys(teams).forEach(function(x) {
+					if(!teams[x]["week"+num] && teams[name] !== teams[x] &&
+						teams[name].partners[teams[x].index] === "") {
+						indexes.push(teams[x].index);
+				}
+			});
+
+				var search_extra = false;
+			// if there are no more partners left to choose from
+			if(indexes.length < num_partners) {
+				indexes = getAllIndexes(teams[name].partners, "")
+				search_extra = true;
+			} else if (indexes.length === num_partners) {
+				num_partners += 1
+			}
+
+			// list everyone in a group
+			let all_partners = [name];
+
+			if(!search_extra) {
+				// get a random partner for x num of partners
+				for(let i = 1; i < num_partners; i++) {
+					let rand_partner = master_list[indexes[Math.floor(Math.random()*indexes.length)]];
+					all_partners.push(rand_partner);
+				}
+			} else {
+				// get 1 random partner, and get all of their partners
+				let rand_partner = master_list[indexes[Math.floor(Math.random()*indexes.length)]];
+				all_partners.push(rand_partner);
+				let new_partners = getAllIndexes(teams[rand_partner].partners, num);
+				for (var i = 0; i < new_partners.length; i++) {
+					all_partners.push(master_list[new_partners[i]])
+				}
+			}
+
+			// set all partners info with eachother
+			for(let i = 0; i < all_partners.length; i++) {
+				let teammate = all_partners[i]
+				for(let j = 0; j < all_partners.length; j++) {
+					let p = all_partners[j]
+					if(teams[teammate] !== teams[p]) {
+						teams[teammate].partners[teams[p].index] = num;
+					}
+					teams[teammate]["week"+num] = true;
+				}
+			}
+		}
+	    });
+
+
+        let groups = [];
+        for (var i = 0; i < master_list.length; i++) {
+            let partners = getAllIndexes(teams[master_list[i]].partners, num);
+            let group = [master_list[i]]
+
+            for (var j = 0; j < partners.length; j++) {
+                group.push(master_list[partners[j]]);
+            }
+
+            group.sort()
+            groups.push(group)
+        }
+
+        let groups_final = Array.from(new Set(groups.map(JSON.stringify)), JSON.parse)
+
+        return {"teams": groups_final, "absences": []}
+	}
+
 
         function addTeam() {
             var teamnum = $(".team").length + 1;
@@ -82,24 +184,24 @@
 
             $.ajax({
               type: "POST",
-              url: "{% url 'save_group' classroom_id group_set %}",
+              url: "{% url 'save_group' classroom_id %}",
               data: JSON.stringify(json),
               dataType: "json",
               contentType : "application/json",
               success: function(response){
-                  console.log(response.body)
+                  window.location = response.body
+
               },
                 error: function(xhr, ajaxOptions, thrownError){
                   if( xhr.status !== 200 ) {
-                      alert("There was an error.");
-                      console.log(xhr.responseText)
+                      alert("There was an error.")
                   } else {
                       window.location = xhr.responseText;
                   }
                 }
             });
         }
-        var obj = {{ json |safe }};
+        var obj = generateNext(2,{{ num_partners }});
         var connect = "class='connect team'";
         for (var i = 0; i < obj.teams.length; i++) {
             document.getElementById("teams").innerHTML += "<div id=team" + (i + 1) + ' ' + connect + ">" + "Team" + ' ' + (i + 1) + "</div>";

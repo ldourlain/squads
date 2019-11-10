@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}SquadzSpace{% endblock %}
+{% block nav %}
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary" style="margin-bottom: 30px;">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand"><img src="{% static "logo.png" %}" style="border-radius: 15px;background: #fff; border: 2px solid;" height="30"/></a>
+
+        </div>
+        <div class="nav navbar-nav mr-auto">
+            <a href="/" class="nav-link active"><strong>Squadz</strong>Space</a>
+            <a href="{% url 'students' %}" class="nav-link">Students</a>
+
+            <a href="{% url 'classes' %}" class="nav-link">Classes</a>
+        </div>
+
+        <div class="navbar-nav float-right">
+            <a href="{% url 'logout' %}" class="nav-link"><span class="fas fa-power-off"></span> {{ request.user }}</a>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block main %}
+{% endblock %}

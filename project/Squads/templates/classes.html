@@ -1,6 +1,5 @@
-{% extends 'base.html' %}
+{% extends 'main_base.html' %}
 
-{% block title %}Sign Up{% endblock %}
 
 {% load staticfiles %}
 {% block header %}
@@ -92,9 +91,12 @@
                 <li class ="classes"><a href="{% url 'classroom' class.id %}">{{ class.name }}</a></li>
             {% endfor %}
         </ul>
+
+
         <form action={% url 'add_class' %}>
             <button type="submit" class = "btn btn-secondary">Create new class</button>
         </form>
+
     </div>
 </div>
 {% endblock %}
