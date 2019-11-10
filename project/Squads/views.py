@@ -14,7 +14,7 @@ def dashboard(request):
 
 def classroom(request, classroom_id):
     current_classroom = get_object_or_404(Classroom, id=classroom_id)
-    context = {"students": current_classroom.student_ids.all(), "classroom_id": classroom_id}
+    context = {"students": current_classroom.student_ids.all(), "classroom_id": classroom_id, "name": current_classroom.name}
     return render(request, 'classroom.html', context)
 
 
