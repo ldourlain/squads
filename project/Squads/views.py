@@ -26,3 +26,14 @@ def edit_groups(request, classroom_id, group_set):
     }
     return render(request, 'edit_classes.html', {"json": json})
 
+
+# def generate_group(request, classroom_id, min_partners, pref_partners):
+#     current_classroom = get_object_or_404(Classroom, id=classroom_id)
+#     num = current_classroom.num_of_groups + 1
+#     for i in range()
+#
+
+
+
+
+

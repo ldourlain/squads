@@ -9,7 +9,7 @@ def home(request):
     if request.user.is_authenticated:
         return HttpResponse("Hello")
 
-    return render(request, "home.html")
+    return redirect("login")
 
 
 class SignUp(generic.CreateView):
